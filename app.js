@@ -17,7 +17,7 @@ const SERVER_URL = process.env.SERVER_URL;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const URI = `/webhook/${TOKEN}`;
 const WEBHOOK_URL = SERVER_URL + URI;
-const { botRequest } = require("./middlewares");
+const { botRequest } = require("./middleware");
 
 const botInit = async () => {
   // for Initializing connection to NUSCCAttendanceBot
