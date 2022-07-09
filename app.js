@@ -81,7 +81,7 @@ app.post(URI, async (req, res) => {
     console.log("look to add to document : " + doc.title);
     // process
 
-    const masterSheet = doc.sheetsByTitle["AY22/23 Sem 1"];
+    const masterSheet = doc.sheetsByTitle['AY22/23 Sem 1'];
     console.log("master sheet title is " + masterSheet.title);
     console.log("master sheet row count is " + masterSheet.rowCount);
 
@@ -90,24 +90,26 @@ app.post(URI, async (req, res) => {
 
 
   } else {
-    console.log("Command Not Matched");
+    // check if its an update command
 
     const str = JSON.stringify(req.body.message.text);
-    console.log("str is " + str);
-    console.log("str length " + str.length);
-    console.log("str includes update " + str.includes("update"));
+    // console.log("str is " + str);
+    // console.log("str length " + str.length);
+    // console.log("str includes update " + str.includes("update"));
     
-    // check if its an update command
     if (str.length > 5 && str.includes("update")) {
       const cmd = str.split(" ");
 
       // get week number
       const weekNo = cmd[1].slice(0,cmd[1].length-1);
-      console.log("week number is " + weekNo);
+      console.log("week number to update is " + weekNo);
 
       // do update
+
     } else {
       // no command
+      console.log("Command Not Matched");
+
       axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatID,
         text:
