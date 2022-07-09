@@ -6,6 +6,9 @@ const axios = require("axios");
 // set port
 const PORT = process.env.PORT || 5000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // define the first route
 app.get("/", (req, res) => {
   res.send("Welcome to the NUS Climbing Club Attendance Tracker!! - WIP -");
@@ -28,8 +31,8 @@ const botInit = async () => {
 
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
-
-  console.log(req);
+    console.log("Enter async functions");
+    console.log(req);
 //   const chatID = req.body.message.chat.id;
 //   const teleID = req.body.message.chat.username;
 
