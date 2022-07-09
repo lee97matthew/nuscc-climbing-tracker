@@ -7,7 +7,7 @@ const masterSheet = new GoogleSpreadsheet(
   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
 );
 
-doc.useServiceAccountAuth({
+masterSheet.useServiceAccountAuth({
   client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
   private_key: process.env.GOOGLE_PRIVATE_KEY,
 });
@@ -31,8 +31,8 @@ teleRequest = (req, res) => {
     // insert generate code
     console.log("Enter Generate Method");
 
-    doc.loadInfo(); // loads document properties and worksheets
-    console.log(doc.title);
+    masterSheet.loadInfo(); // loads document properties and worksheets
+    console.log(masterSheet.title);
 
     // Successful create
     axios.post(`${TELEGRAM_API}/sendMessage`, {
