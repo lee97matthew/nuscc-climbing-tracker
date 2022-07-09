@@ -1,6 +1,7 @@
 // create an express app
 const express = require("express");
 const cors = require("cors");
+const { GoogleSpreadsheet } = require("google-spreadsheet");
 
 const axios = require("axios");
 
@@ -36,6 +37,23 @@ const botInit = async () => {
   console.log(result.data);
 };
 
+const masterSheet = new GoogleSpreadsheet(
+  "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
+);
+console.log("masterSheet iniitalized");
+
+const sheetInit = async () => {
+  console.log("enter sheetInit");
+  await masterSheet.useServiceAccountAuth({
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY,
+  });
+
+  await masterSheet.loadInfo();
+  console.log(masterSheet.title);
+  console.log("leave sheetInit");
+};
+
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
   // console.log("Enter async functions");
@@ -45,14 +63,14 @@ app.post(URI, async (req, res) => {
 
   if (req.body.message.text == "/update") {
     console.log("Update Attendance Command Match");
-    
+
     // process
-    await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "update" });
+    // await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "update" });
   } else if (req.body.message.text == "/generate") {
     console.log("Generate Command Match");
-    
+
     // process
-    await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "generate" });
+    // await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "generate" });
   } else {
     console.log("Command Not Matched");
     axios.post(`${TELEGRAM_API}/sendMessage`, {
