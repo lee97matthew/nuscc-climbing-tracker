@@ -36,15 +36,16 @@ const botInit = async () => {
   );
   console.log(result.data);
 };
-const masterSheet = null;
+
+const masterSheet = new GoogleSpreadsheet(
+  "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
+);
+console.log("masterSheet iniitalized");
 
 const sheetInit = async () => {
   console.log("enter sheetInit");
 
-  masterSheet = new GoogleSpreadsheet(
-    "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
-  );
-  console.log("masterSheet iniitalized");
+  
 
   masterSheet.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -90,5 +91,5 @@ app.post(URI, async (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on port: ${PORT}`);
   await botInit();
-  await sheetInit();
+  setTimeout(() => {  sheetInit(); }, 5000);
 });
