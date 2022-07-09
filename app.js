@@ -54,7 +54,7 @@ app.post(URI, async (req, res) => {
 });
 
 // start the server listening for requests
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log("Server is running!!");
   await botInit();
 });
