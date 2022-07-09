@@ -12,8 +12,8 @@ app.get("/", (req, res) => {
 });
 
 // open connection to NUSCCAttendanceBot
-const TOKEN = process.env.TOKEN;
-const SERVER_URL = process.env.SERVER_URL;
+const TOKEN = "5499274329:AAGXNvB0eL7AAoF3E6UCPT2zP_MO7v54xnM";
+const SERVER_URL = "https://nuscc-attendance-tracker.herokuapp.com";
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const URI = `/webhook/${TOKEN}`;
 const WEBHOOK_URL = SERVER_URL + URI;
