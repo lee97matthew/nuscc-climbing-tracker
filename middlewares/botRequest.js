@@ -3,14 +3,19 @@ const TOKEN = process.env.TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 
-const masterSheet = new GoogleSpreadsheet(
-  "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
-);
+// const masterSheet = new GoogleSpreadsheet(
+//   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
+// );
 
-masterSheet.useServiceAccountAuth({
-  client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  private_key: process.env.GOOGLE_PRIVATE_KEY,
-});
+// const master = async () => {
+//   await masterSheet.useServiceAccountAuth({
+//     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+//     private_key: process.env.GOOGLE_PRIVATE_KEY,
+//   });
+
+//   await masterSheet.loadInfo(); // loads document properties and worksheets
+//   console.log(masterSheet.title);
+// };
 
 teleRequest = (req, res) => {
   if (req) {
@@ -30,9 +35,6 @@ teleRequest = (req, res) => {
   } else if (req.task === "generate") {
     // insert generate code
     console.log("Enter Generate Method");
-
-    masterSheet.loadInfo(); // loads document properties and worksheets
-    console.log(masterSheet.title);
 
     // Successful create
     axios.post(`${TELEGRAM_API}/sendMessage`, {
