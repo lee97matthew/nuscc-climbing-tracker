@@ -10,7 +10,7 @@ let port = process.env.PORT || 3000;
 
 // define the first route
 app.get("/", (req, res) => {
-  res.send("Welcome to the NUS Climbing Club Attendance Tracker")
+  res.send("Welcome to the NUS Climbing Club Attendance Tracker!! - WIP -")
 })
 
 // start the server listening for requests
