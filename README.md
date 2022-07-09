@@ -1,6 +1,6 @@
 # NUS Climbing Club Attendance Tracker
 
-Interaction only via Telegram bot - to be created -
+Interaction only via [Telegram Bot](https://t.me/NUSCCAttendanceBot)
 
 ## Description 
 
@@ -11,4 +11,4 @@ Members are required to scan the QR codes at USC / UTown and key in their NUSNET
 The weekly attendance sheet will then be updated to the master attendance sheet on a weekly basis.
 
 ## Support
-Please contact Matthew on [Telegram](https://t.me/Revengenc3x) if you face any issues.
+Please contact [Matthew](https://t.me/Revengenc3x) if you face any issues.
