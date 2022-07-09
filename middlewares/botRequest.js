@@ -24,3 +24,9 @@ teleRequest = (req, res) => {
       });
   }
 };
+
+const botRequest = {
+    teleRequest
+};
+
+module.exports = botRequest;

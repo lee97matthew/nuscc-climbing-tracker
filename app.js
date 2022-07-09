@@ -57,9 +57,3 @@ app.post(URI, async (req, res) => {
 app.listen(port, () => {
   console.log("Server is running!!");
 });
-
-const botRequest = {
-    teleRequest
-};
-
-module.exports = botRequest;
