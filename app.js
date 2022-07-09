@@ -4,7 +4,7 @@ const app = express();
 const axios = require("axios");
 
 // set port
-let port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // define the first route
 app.get("/", (req, res) => {
@@ -53,8 +53,8 @@ app.post(URI, async (req, res) => {
   return res.send();
 });
 
-// start the server listening for requests
-app.listen(port, async () => {
-  console.log("Server is running!!");
+// Initialize Server
+app.listen(PORT, async () => {
+  console.log(`Server is running on port: ${PORT}`);
   await botInit();
 });
