@@ -102,7 +102,7 @@ app.post(URI, async (req, res) => {
       const cmd = str.split(" ");
 
       // get week number
-      const weekNo = cmd[1];
+      const weekNo = cmd[1].slice(0,cmd[1].length-1);
       console.log("week number is " + weekNo);
 
       // do update
