@@ -69,7 +69,7 @@ app.post(URI, async (req, res) => {
     // await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "update" });
   } else if (req.body.message.text == "/generate") {
     console.log("Generate Command Match");
-
+    console.log("look to add to " + masterSheet.title);
     // process
     // await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "generate" });
   } else {
@@ -89,5 +89,5 @@ app.post(URI, async (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on port: ${PORT}`);
   await botInit();
-  setTimeout(() => {  sheetInit(); }, 5000);
+  setTimeout(() => {  sheetInit(); }, 3000);
 });
