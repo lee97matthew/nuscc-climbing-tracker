@@ -85,7 +85,7 @@ app.post(URI, async (req, res) => {
     console.log("master sheet title is " + masterSheet.title);
     console.log("master sheet row count is " + masterSheet.rowCount);
 
-    const rows = await sheet.getRows();
+    const rows = await masterSheet.getRows();
     console.log(rows[0]);
 
 
