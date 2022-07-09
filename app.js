@@ -42,17 +42,13 @@ const masterSheet = new GoogleSpreadsheet(
 );
 console.log("masterSheet iniitalized");
 
-const sheetInit = async () => {
-  console.log("enter sheetInit");
-  await masterSheet.useServiceAccountAuth({
-    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY,
-  });
+await masterSheet.useServiceAccountAuth({
+  client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  private_key: process.env.GOOGLE_PRIVATE_KEY,
+});
 
-  await masterSheet.loadInfo();
-  console.log(masterSheet.title);
-  console.log("leave sheetInit");
-};
+await masterSheet.loadInfo(); // loads document properties and worksheets
+console.log(masterSheet.title);
 
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
