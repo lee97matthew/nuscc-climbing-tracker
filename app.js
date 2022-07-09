@@ -29,7 +29,7 @@ const botInit = async () => {
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
 
-  console.log(req.body);
+  console.log(req);
 //   const chatID = req.body.message.chat.id;
 //   const teleID = req.body.message.chat.username;
 
