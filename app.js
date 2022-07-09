@@ -37,23 +37,24 @@ const botInit = async () => {
   console.log(result.data);
 };
 
-const masterSheet = new GoogleSpreadsheet(
+const doc = new GoogleSpreadsheet(
   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
 );
-console.log("masterSheet iniitalized");
+console.log("doc iniitalized");
 
 const sheetInit = async () => {
   console.log("enter sheetInit");
 
-  await masterSheet.useServiceAccountAuth({
+  await doc.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
   });
-  
-  await masterSheet.loadInfo(); // loads document properties and worksheets
-  console.log(masterSheet.title);
+
+  await doc.loadInfo(); // loads document properties and worksheets
+  console.log(doc.title);
+
   console.log("leave sheetInit");
-}
+};
 
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
@@ -66,21 +67,52 @@ app.post(URI, async (req, res) => {
     console.log("Update Attendance Command Match");
 
     // process
-    // await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "update" });
-  } else if (req.body.message.text == "/generate") {
-    console.log("Generate Command Match");
-    console.log("look to add to " + masterSheet.title);
-    // process
-    // await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "generate" });
-  } else {
-    console.log("Command Not Matched");
     axios.post(`${TELEGRAM_API}/sendMessage`, {
       chat_id: chatID,
       text:
         "Hello " +
         req.body.message.chat.first_name +
-        ", Please use the /update command to update the attendance.",
+        ", Please type 'update xx' to update the attendance." +
+        "\n" +
+        "For example, 'update 1' to update week 1",
     });
+  } else if (req.body.message.text == "/generate") {
+    console.log("Generate Command Match");
+    console.log("look to add to document : " + doc.title);
+    // process
+
+    const masterSheet = doc.sheetsByTitle["AY22/23 Sem 1"];
+    console.log("master sheet title is " + masterSheet.title);
+    console.log("master sheet row count is " + masterSheet.rowCount);
+
+    const rows = await sheet.getRows();
+    console.log(rows[0]);
+
+
+  } else {
+    console.log("Command Not Matched");
+
+    const str = JSON.stringify(req.body.message.text);
+
+    // check if its an update command
+    if (str.length > 5 && str.slice(0, 5) == "update") {
+      console.log("string slice is " + str.slice(0, 5));
+
+      // get week number
+      const weekNo = str.slice(6);
+      console.log("week number is " + weekNo);
+
+      // do update
+    } else {
+      // no command
+      axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatID,
+        text:
+          "Hello " +
+          req.body.message.chat.first_name +
+          ", Please use the /update command to update the attendance.",
+      });
+    }
   }
   return res.send();
 });
@@ -89,5 +121,7 @@ app.post(URI, async (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on port: ${PORT}`);
   await botInit();
-  setTimeout(() => {  sheetInit(); }, 3000);
+  setTimeout(() => {
+    sheetInit();
+  }, 3000);
 });
