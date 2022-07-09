@@ -41,7 +41,7 @@ app.post(URI, async (req, res) => {
   // console.log("Enter async functions");
   console.log(req.body);
   const chatID = req.body.message.chat.id;
-//   const teleID = req.body.message.chat.username;
+  const teleID = req.body.message.chat.username;
 
   if (req.body.message.text == "/update") {
     console.log("Update Attendance Command Match");
