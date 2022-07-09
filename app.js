@@ -93,7 +93,8 @@ app.post(URI, async (req, res) => {
     console.log("Command Not Matched");
 
     const str = JSON.stringify(req.body.message.text);
-
+    console.log("str is " + str);
+    
     // check if its an update command
     if (str.length > 5 && str.slice(0, 5) == "update") {
       console.log("string slice is " + str.slice(0, 5));
