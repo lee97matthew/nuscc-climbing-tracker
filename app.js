@@ -47,11 +47,11 @@ app.post(URI, async (req, res) => {
     console.log("Update Attendance Command Match");
 
     // process
-    await botRequest.teleRequest({ chatID: chatID, task: "update" });
+    await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "update" });
   } else if (req.body.message.text == "/test") {
     console.log("Test Command Match");
     // no process
-    await botRequest.teleRequest({ chatID: chatID, task: "test" });
+    await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "test" });
   } else {
     console.log("Command Not Matched");
     axios.post(`${TELEGRAM_API}/sendMessage`, {
