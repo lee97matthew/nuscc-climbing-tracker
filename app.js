@@ -94,13 +94,15 @@ app.post(URI, async (req, res) => {
 
     const str = JSON.stringify(req.body.message.text);
     console.log("str is " + str);
+    console.log("str length " + str.length);
+    console.log("str includes update " + str.includes("update"));
     
     // check if its an update command
-    if (str.length > 5 && str.slice(0, 5) == "update") {
-      console.log("string slice is " + str.slice(0, 5));
+    if (str.length > 5 && str.includes("update")) {
+      const cmd = str.split(" ");
 
       // get week number
-      const weekNo = str.slice(6);
+      const weekNo = cmd[1];
       console.log("week number is " + weekNo);
 
       // do update
