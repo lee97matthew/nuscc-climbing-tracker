@@ -38,31 +38,31 @@ const botInit = async () => {
 
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
-  console.log("Enter async functions");
+  // console.log("Enter async functions");
   console.log(req.body);
-  //   const chatID = req.body.message.chat.id;
-  //   const teleID = req.body.message.chat.username;
+  const chatID = req.body.message.chat.id;
+  const teleID = req.body.message.chat.username;
 
-  //   if (req.body.message.text === "/update") {
-  //     console.log("Update Attendance Command Match");
+  if (req.body.message.text === "/update") {
+    console.log("Update Attendance Command Match");
 
-  //     // process
-  //     await botRequest.teleRequest({ task: "update" });
-  //   } else if (req.body.message.text === "/test") {
-  //     console.log("Test Command Match");
-  //     // no process
-  //     await botRequest.teleRequest({ task: "test" });
-  //   } else {
-  //     console.log("Command Not Matched");
-  //     axios.post(`${TELEGRAM_API}/sendMessage`, {
-  //       chat_id: chatID,
-  //       text:
-  //         "Hello " +
-  //         req.body.message.chat.first_name +
-  //         ", Please use the /update command to update the attendance.",
-  //     });
-  //   }
-    return res.send();
+    // process
+    await botRequest.teleRequest({ task: "update" });
+  } else if (req.body.message.text === "/test") {
+    console.log("Test Command Match");
+    // no process
+    await botRequest.teleRequest({ task: "test" });
+  } else {
+    console.log("Command Not Matched");
+    axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: chatID,
+      text:
+        "Hello " +
+        req.body.message.chat.first_name +
+        ", Please use the /update command to update the attendance.",
+    });
+  }
+  return res.send();
 });
 
 // Initialize Server

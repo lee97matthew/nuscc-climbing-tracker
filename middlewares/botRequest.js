@@ -9,6 +9,7 @@ teleRequest = (req, res) => {
 
   // Update attendance for previous week
   if (req.task === "update") {
+    // Update
 
     // Successful update
     axios.post(`${TELEGRAM_API}/sendMessage`, {
@@ -17,7 +18,6 @@ teleRequest = (req, res) => {
         "Attendance has been updated.",
     });
   } else if (req.task === "test") {
-
     // No task
     axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: req.chatID,
