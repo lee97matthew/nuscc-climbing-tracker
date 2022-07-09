@@ -36,21 +36,23 @@ const botInit = async () => {
   );
   console.log(result.data);
 };
-
-const doc = new GoogleSpreadsheet(
-  "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
-);
-console.log("doc iniitalized");
+const masterSheet = null;
 
 const sheetInit = async () => {
   console.log("enter sheetInit");
-  doc.useServiceAccountAuth({
+
+  masterSheet = new GoogleSpreadsheet(
+    "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
+  );
+  console.log("masterSheet iniitalized");
+
+  masterSheet.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
   });
   
-  doc.loadInfo(); // loads document properties and worksheets
-  console.log(doc.title);
+  masterSheet.loadInfo(); // loads document properties and worksheets
+  console.log(masterSheet.title);
   console.log("leave sheetInit");
 }
 
