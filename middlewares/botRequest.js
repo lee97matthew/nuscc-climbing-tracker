@@ -1,6 +1,13 @@
 const axios = require("axios");
 const TOKEN = process.env.TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+
+const masterSheet = new GoogleSpreadsheet('1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw');
+await doc.useServiceAccountAuth({
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY,
+  });
 
 teleRequest = (req, res) => {
   if (req) {
@@ -10,6 +17,7 @@ teleRequest = (req, res) => {
   // Update attendance for previous week
   if (req.task === "update") {
     // insert update code
+    console.log("Enter Update Method")
 
     // Successful update
     axios.post(`${TELEGRAM_API}/sendMessage`, {
@@ -17,12 +25,18 @@ teleRequest = (req, res) => {
       text:
         "Attendance has been updated. (no not really haha jokes)",
     });
-  } else if (req.task === "test") {
-    // No task
+  } else if (req.task === "generate") {
+    // insert generate code
+    console.log("Enter Generate Method")
+
+    await doc.loadInfo(); // loads document properties and worksheets
+    console.log(doc.title);
+
+    // Successful create
     axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: req.chatID,
         text:
-          "There is no functionality here yet.",
+          "New sign-up sheet has been created.",
       });
   }
 };

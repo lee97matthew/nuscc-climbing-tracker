@@ -45,13 +45,14 @@ app.post(URI, async (req, res) => {
 
   if (req.body.message.text == "/update") {
     console.log("Update Attendance Command Match");
-
+    
     // process
     await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "update" });
-  } else if (req.body.message.text == "/test") {
-    console.log("Test Command Match");
-    // no process
-    await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "test" });
+  } else if (req.body.message.text == "/generate") {
+    console.log("Generate Command Match");
+    
+    // process
+    await botRequest.teleRequest({ chatID: chatID, telegramHandle: teleID, task: "generate" });
   } else {
     console.log("Command Not Matched");
     axios.post(`${TELEGRAM_API}/sendMessage`, {
