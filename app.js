@@ -37,20 +37,20 @@ const botInit = async () => {
   console.log(result.data);
 };
 
-const masterSheet = new GoogleSpreadsheet(
+const doc = new GoogleSpreadsheet(
   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
 );
-console.log("masterSheet iniitalized");
+console.log("doc iniitalized");
 
 const sheetInit = async () => {
   console.log("enter sheetInit");
-  masterSheet.useServiceAccountAuth({
+  doc.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
   });
   
-  masterSheet.loadInfo(); // loads document properties and worksheets
-  console.log(masterSheet.title);
+  doc.loadInfo(); // loads document properties and worksheets
+  console.log(doc.title);
   console.log("leave sheetInit");
 }
 
