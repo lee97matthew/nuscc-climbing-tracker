@@ -17,7 +17,7 @@ const SERVER_URL = process.env.SERVER_URL;
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 const URI = `/webhook/${TOKEN}`;
 const WEBHOOK_URL = SERVER_URL + URI;
-const { botRequest } = require("./middleware");
+const { botRequest } = require("./middlewares");
 
 const botInit = async () => {
   // for Initializing connection to NUSCCAttendanceBot
@@ -34,27 +34,12 @@ app.post(URI, async (req, res) => {
   if (req.body.message.text === "/update") {
     console.log("Update Attendance Command Match");
 
-    axios.post(`${TELEGRAM_API}/sendMessage`, {
-      chat_id: chatID,
-      text:
-        "Hello " +
-        req.body.message.chat.first_name +
-        ", Update is being processed, please wait.",
-    });
     // process
-    // await botRequest.teleRequest({ task: "update" });
+    await botRequest.teleRequest({ task: "update" });
   } else if (req.body.message.text === "/test") {
     console.log("Test Command Match");
-    axios.post(`${TELEGRAM_API}/sendMessage`, {
-      chat_id: chatID,
-      text:
-        "Hello " +
-        req.body.message.chat.first_name +
-        ", There is no functionality here yet.",
-    });
-
     // no process
-    // await botRequest.teleRequest({ task: "test" });
+    await botRequest.teleRequest({ task: "test" });
   } else {
     console.log("Command Not Matched");
     axios.post(`${TELEGRAM_API}/sendMessage`, {
@@ -72,3 +57,9 @@ app.post(URI, async (req, res) => {
 app.listen(port, () => {
   console.log("Server is running!!");
 });
+
+const botRequest = {
+    teleRequest
+};
+
+module.exports = botRequest;
