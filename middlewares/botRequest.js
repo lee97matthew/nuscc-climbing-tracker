@@ -6,7 +6,8 @@ const { GoogleSpreadsheet } = require("google-spreadsheet");
 const masterSheet = new GoogleSpreadsheet(
   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
 );
-await doc.useServiceAccountAuth({
+
+doc.useServiceAccountAuth({
   client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
   private_key: process.env.GOOGLE_PRIVATE_KEY,
 });
