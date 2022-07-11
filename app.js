@@ -194,6 +194,8 @@ app.post(URI, async (req, res) => {
         newSheet.clear("L202:O206");
       }
 
+      await newSheet.resize({ rowCount : 15, columnCount : 207});
+
       // save new sheet
       await newSheet.saveUpdatedCells();
 
