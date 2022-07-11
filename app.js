@@ -130,7 +130,8 @@ app.post(URI, async (req, res) => {
       // generate x y command
       const temp1 = cmd[1];
       const semester = temp1.slice(1,2);
-      const weekNo = temp1.slice(3, semester.length);
+      console.log("temp1 is " + temp1);
+      const weekNo = temp1.slice(3);
       const newTitle = "Sem " + semester + " Week " + weekNo;
 
       const sheet1 = doc.sheetsByTitle["Blank Sheet"];
@@ -143,6 +144,7 @@ app.post(URI, async (req, res) => {
       title.value = getTitle(weekNo);
 
       await sheet2.saveUpdatedCells();
+      await sheet1.updateProperties({hidden : true});
 
       axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatID,
