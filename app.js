@@ -227,7 +227,11 @@ app.listen(PORT, async () => {
 });
 
 function getTitle(semester, week) {
+  console.log("semester is " + semester);
+  console.log("week is " + week);
+
   if (semester == "1") {
+    console.log("AAAAAA");
     switch (week) {
       case "1":
         return "Week 1 Bookings 8 Aug - 12 Aug";
@@ -259,6 +263,7 @@ function getTitle(semester, week) {
         return "0";
     }
   } else {
+    console.log("BBBBB");
     switch (week) {
       case "1":
         return "Week 1 Bookings 9 Jan - 13 Jan";
