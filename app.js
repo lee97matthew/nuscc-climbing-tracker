@@ -143,7 +143,9 @@ app.post(URI, async (req, res) => {
         chooseTitle = "Blank Sheet";
       }
 
+      console.log("take from " + chooseTitle);
       const oldSheet = doc.sheetsByTitle[chooseTitle];
+      console.log("title is " + oldSheet.title);
       await oldSheet.duplicate({ title: newTitle });
 
       const newSheet = doc.sheetsByTitle[newTitle];
