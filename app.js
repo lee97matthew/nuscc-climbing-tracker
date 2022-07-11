@@ -129,8 +129,8 @@ app.post(URI, async (req, res) => {
     } else if (str.length > 5 && str.includes("generate")) {
       // generate x y command
       const temp1 = cmd[1];
-      const semester = temp1.slice(0,1);
-      const weekNo = temp1.slice(2);
+      const semester = temp1.slice(1,2);
+      const weekNo = temp1.slice(3, semester.length - 1);
       const newTitle = "Sem " + semester + " Week " + weekNo;
 
       const sheet1 = doc.sheetsByTitle["Blank Sheet"];
