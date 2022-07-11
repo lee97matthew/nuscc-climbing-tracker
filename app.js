@@ -125,7 +125,7 @@ app.post(URI, async (req, res) => {
       // do update
     } else if (str.length > 5 && str.includes("generate")) {
       // generate x y command
-      
+
       const temp1 = cmd[1];
       const semester = temp1.slice(1, 2);
       console.log("temp1 is " + temp1);
@@ -138,28 +138,27 @@ app.post(URI, async (req, res) => {
       console.log("old week is " + oldWeekNo);
       const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
 
-      /* test code */
-      const oldSheet = doc.sheetsByTitle["Blank Sheet"];
-      await oldSheet.duplicate({ title: newTitle });
-      const newSheet = doc.sheetsByTitle[newTitle];
-      await newSheet.loadCells();
-      const title = newSheet.getCell(0, 0);
-      title.value = getTitle(semester, weekNo);
-      
+      if (weekNo === "1") {
+        /* test code */
+        const oldSheet = doc.sheetsByTitle["Blank Sheet"];
+        await oldSheet.duplicate({ title: newTitle });
+        const newSheet = doc.sheetsByTitle[newTitle];
+        await newSheet.loadCells();
+        const title = newSheet.getCell(0, 0);
+        title.value = getTitle(semester, weekNo);
+      } else {
+        /* production code */
+        const oldSheet = doc.sheetsByTitle[oldTitle];
+        await oldSheet.duplicate({ title: newTitle });
 
-      /* production code
-      const oldSheet = doc.sheetsByTitle[oldTitle];
-      await oldSheet.duplicate({ title: newTitle });
+        const newSheet = doc.sheetsByTitle[newTitle];
+        await newSheet.loadCells();
+        const title = newSheet.getCell(0, 0);
+        title.value = getTitle(semester, weekNo);
 
-      const newSheet = doc.sheetsByTitle[newTitle];
-      await newSheet.loadCells();
-      const title = newSheet.getCell(0, 0);
-      title.value = getTitle(semester, weekNo);
-
-      // hide old sheet
-      await oldSheet.updateProperties({ hidden: true });
-
-      */
+        // hide old sheet
+        // await oldSheet.updateProperties({ hidden: true });
+      }
 
       // clearing old data
       {
@@ -193,7 +192,7 @@ app.post(URI, async (req, res) => {
         newSheet.clear("L202:O206");
       }
 
-      await newSheet.resize({ rowCount : 206, columnCount : 15});
+      await newSheet.resize({ rowCount: 206, columnCount: 15 });
 
       // save new sheet
       await newSheet.saveUpdatedCells();
