@@ -154,7 +154,7 @@ app.post(URI, async (req, res) => {
 
       // await newSheet.unmergeCells('A1:J1');
 
-      setTimeout(() => {
+      setTimeout(async () => {
         const title = newSheet.getCellByA1('A1');
         console.log("cur title is " + title.value);
 
