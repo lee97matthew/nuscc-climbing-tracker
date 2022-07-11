@@ -153,7 +153,7 @@ app.post(URI, async (req, res) => {
 
       // await newSheet.unmergeCells('A1:J1');
       const title = newSheet.getCell(0, 0);
-      console.log("cur title is " + title);
+      console.log("cur title is " + title.value);
 
       console.log("new title is " + getTitle(semester, weekNo));
       // title.value = getTitle(semester, weekNo);
