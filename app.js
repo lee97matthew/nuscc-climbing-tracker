@@ -94,7 +94,7 @@ app.post(URI, async (req, res) => {
     // await rows[6].save();
 
     rows[6].wk3 = "E";
-    await rows[6].saveUpdatedCells();
+    await masterSheet.saveUpdatedCells();
 
     // cell.value
     // cell.formula
