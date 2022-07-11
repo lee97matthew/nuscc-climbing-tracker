@@ -63,7 +63,8 @@ app.post(URI, async (req, res) => {
   const chatID = req.body.message.chat.id;
   const teleID = req.body.message.chat.username;
 
-  if (req.body.message.text == "/update") { // /update command
+  if (req.body.message.text == "/update") {
+    // /update command
     console.log("Update Attendance Command Match");
 
     // process
@@ -76,12 +77,13 @@ app.post(URI, async (req, res) => {
         "\n" +
         "For example, 'update 1' to update week 1",
     });
-  } else if (req.body.message.text == "/generate") { // /generate command
+  } else if (req.body.message.text == "/generate") {
+    // /generate command
     console.log("Generate Command Match");
     console.log("look to add to document : " + doc.title);
     // process
 
-    const masterSheet = doc.sheetsByTitle['AY22/23 Sem 1'];
+    const masterSheet = doc.sheetsByTitle["AY22/23 Sem 1"];
     console.log("master sheet title is " + masterSheet.title);
     console.log("master sheet row count is " + masterSheet.rowCount);
 
@@ -99,24 +101,33 @@ app.post(URI, async (req, res) => {
     // const newSheet = await doc.addSheet({ title: 'Sem 1 Week 1' });
     // await newSheet.resize({ rowCount : 12, columnCount : 206});
 
-    const sheet1 = doc.sheetsByTitle['Wk1'];
-    await sheet1.duplicate({title : 'duplicated sheet'});
-    // await doc.duplicate(sheet1, {title : 'duplicated sheet'});
+    const sheet1 = doc.sheetsByTitle["Sem 1 Week 1"];
+    await sheet1.duplicate({ title: "Sem 1 Week 2" });
+
+    const sheet2 = doc.sheetsByTitle["Sem 1 Week 2"];
+    await sheet2.loadCells();
+
+    const title = sheet2.getCell(0, 0);
+    title.value = getTitle("1");
+
+    sheet2.clear({ a1Range : 'B6:E35'});
+    await sheet2.saveUpdatedCells();
 
   } else {
     // check if its an update command
     const str = JSON.stringify(req.body.message.text);
-    
-    if (str.length > 5 && str.includes("update")) { // update x command
+
+    if (str.length > 5 && str.includes("update")) {
+      // update x command
       const cmd = str.split(" ");
 
       // get week number
-      const weekNo = cmd[1].slice(0,cmd[1].length-1);
+      const weekNo = cmd[1].slice(0, cmd[1].length - 1);
       console.log("week number to update is " + weekNo);
 
       // do update
-
-    } else { // no command
+    } else {
+      // no command
       // no command
       console.log("Command Not Matched");
 
@@ -140,3 +151,12 @@ app.listen(PORT, async () => {
     sheetInit();
   }, 3000);
 });
+
+function getTitle(week) {
+  switch (week) {
+    case '1':
+      return "Week 1 Bookings x Aug - y Aug";
+    case '2':
+      return "Week 2 Bookings y Aug - z Aug";
+  }
+}
