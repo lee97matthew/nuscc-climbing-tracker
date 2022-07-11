@@ -85,15 +85,18 @@ app.post(URI, async (req, res) => {
     console.log("master sheet title is " + masterSheet.title);
     console.log("master sheet row count is " + masterSheet.rowCount);
 
+    // using row
     const rows = await masterSheet.getRows();
     console.log(rows[6].name);
     console.log(rows[6].newMember);
     console.log(rows[6].wk1);
-
     // rows[6].wk2 = "E";
     // await rows[6].save();
 
-    rows[6].wk3 = "E";
+    // using cell
+    await masterSheet.loadCells();
+    const cell = masterSheet.getCell(7,7);
+    cell.value = "E";
     await masterSheet.saveUpdatedCells();
 
     // cell.value
