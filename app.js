@@ -90,8 +90,12 @@ app.post(URI, async (req, res) => {
     console.log(rows[6].newMember);
     console.log(rows[6].wk1);
 
-    rows[6].wk2 = "E";
-    await rows[6].save();
+    // rows[6].wk2 = "E";
+    // await rows[6].save();
+
+    rows[6].wk3 = "E";
+    await rows[6].saveUpdatedCells();
+
     // cell.value
     // cell.formula
     // masterSheet.saveUpdatedCells();
