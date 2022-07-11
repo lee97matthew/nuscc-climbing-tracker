@@ -134,28 +134,41 @@ app.post(URI, async (req, res) => {
       console.log("slice is " + temp1.slice(3, temp1.length - 1));
       const weekNo = temp1.slice(3, temp1.length - 1);
       const newTitle = "Sem " + semester + " Week " + weekNo;
+      console.log("new title is " + newTitle);
 
       const oldWeekNo = getOldWeek(weekNo);
       console.log("old week is " + oldWeekNo);
+      const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
 
-      console.log("new title is " + newTitle);
+      const oldSheet = doc.sheetsByTitle[oldTitle];
+      await oldSheet.duplicate({ title : newTitle });
 
-      const sheet1 = doc.sheetsByTitle["Blank Sheet"];
-      await sheet1.duplicate({ title : newTitle });
-
-      const sheet2 = doc.sheetsByTitle[newTitle];
-      await sheet2.loadCells();
-      const title = sheet2.getCell(0, 0);
+      const newSheet = doc.sheetsByTitle[newTitle];
+      await newSheet.loadCells();
+      const title = newSheet.getCell(0, 0);
       title.value = getTitle(weekNo);
 
-      await sheet2.saveUpdatedCells();
-      // await sheet1.updateProperties({hidden : true});
+      // clearing old data
+      newSheet.clear('B6:E35');
+      newSheet.clear('G6:J35');
+      newSheet.clear('B37:E41');
+      newSheet.clear('G37:J41');
+      newSheet.clear('B46:E75');
+      newSheet.clear('G46:J75');
+      newSheet.clear('B77:E82');
+      newSheet.clear('G77:J82');
 
-      // axios.post(`${TELEGRAM_API}/sendMessage`, {
-      //   chat_id: chatID,
-      //   text:
-      //     "New sheet created."
-      // });
+      // save new sheet
+      await newSheet.saveUpdatedCells();
+
+      // hide old sheet
+      await oldSheet.updateProperties({hidden : true});
+
+      axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatID,
+        text:
+          "New sheet created for " + newTitle + "."
+      });
       
     } else {
       // no command
