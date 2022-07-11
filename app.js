@@ -110,7 +110,7 @@ app.post(URI, async (req, res) => {
     const title = sheet2.getCell(0, 0);
     title.value = getTitle("1");
 
-    sheet2.clear({ a1Range : 'B6:E35'});
+    sheet2.clear('G6:J35');
     await sheet2.saveUpdatedCells();
 
   } else {
