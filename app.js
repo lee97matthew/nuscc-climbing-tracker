@@ -159,7 +159,7 @@ app.post(URI, async (req, res) => {
         console.log("cur title is " + title.value);
 
         console.log("new title is " + getTitle(semester, weekNo));
-      }, 3000);
+      }, 10000);
 
       // title.value = getTitle(semester, weekNo);
 
