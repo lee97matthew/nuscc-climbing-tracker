@@ -142,23 +142,18 @@ app.post(URI, async (req, res) => {
         /* test code */
         const oldSheet = doc.sheetsByTitle["Blank Sheet"];
         await oldSheet.duplicate({ title: newTitle });
-        const newSheet = doc.sheetsByTitle[newTitle];
-        await newSheet.loadCells();
-        const title = newSheet.getCell(0, 0);
-        title.value = getTitle(semester, weekNo);
       } else {
         /* production code */
         const oldSheet = doc.sheetsByTitle[oldTitle];
         await oldSheet.duplicate({ title: newTitle });
-
-        const newSheet = doc.sheetsByTitle[newTitle];
-        await newSheet.loadCells();
-        const title = newSheet.getCell(0, 0);
-        title.value = getTitle(semester, weekNo);
-
+        
         // hide old sheet
         // await oldSheet.updateProperties({ hidden: true });
       }
+      const newSheet = doc.sheetsByTitle[newTitle];
+      await newSheet.loadCells();
+      const title = newSheet.getCell(0, 0);
+      title.value = getTitle(semester, weekNo);
 
       // clearing old data
       {
