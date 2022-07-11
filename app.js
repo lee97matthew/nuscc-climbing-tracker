@@ -86,22 +86,21 @@ app.post(URI, async (req, res) => {
     console.log("master sheet row count is " + masterSheet.rowCount);
 
     // using row
-    const rows = await masterSheet.getRows();
-    console.log(rows[6].name);
-    console.log(rows[6].newMember);
-    console.log(rows[6].wk1);
-    // rows[6].wk2 = "E";
+    // const rows = await masterSheet.getRows();
+    // rows[6].wk2 = "E"; //[goes by no idx]
     // await rows[6].save();
 
     // using cell
-    await masterSheet.loadCells();
-    const cell = masterSheet.getCell(7,7);
-    cell.value = "E";
-    await masterSheet.saveUpdatedCells();
+    // await masterSheet.loadCells();
+    // const cell = masterSheet.getCell(7,7); // 0 index
+    // cell.value = "E";
+    // await masterSheet.saveUpdatedCells();
 
-    // cell.value
-    // cell.formula
-    // masterSheet.saveUpdatedCells();
+    // const newSheet = await doc.addSheet({ title: 'Sem 1 Week 1' });
+    // await newSheet.resize({ rowCount : 12, columnCount : 206});
+
+    const sheet1 = doc.sheetsByTitle['Wk1'];
+    await doc.duplicate(sheet1, {title : 'duplicated sheet'});
 
   } else {
     // check if its an update command
