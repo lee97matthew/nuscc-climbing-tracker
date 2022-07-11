@@ -146,14 +146,16 @@ app.post(URI, async (req, res) => {
         /* production code */
         const oldSheet = doc.sheetsByTitle[oldTitle];
         await oldSheet.duplicate({ title: newTitle });
-        
+
         // hide old sheet
         // await oldSheet.updateProperties({ hidden: true });
       }
       const newSheet = doc.sheetsByTitle[newTitle];
       await newSheet.loadCells();
-      const title = newSheet.getCell(0, 0);
+      // const title = newSheet.getCell(0, 0);
+      const title = newSheet.getCellByA1('A1');
       title.value = getTitle(semester, weekNo);
+      console.log("new title is " + title.value);
 
       // clearing old data
       {
