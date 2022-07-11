@@ -145,7 +145,7 @@ app.post(URI, async (req, res) => {
       const newSheet = doc.sheetsByTitle[newTitle];
       await newSheet.loadCells();
       const title = newSheet.getCell(0, 0);
-      title.value = getTitle(weekNo);
+      title.value = getTitle(semester, weekNo);
       
 
       /* production code
@@ -155,7 +155,7 @@ app.post(URI, async (req, res) => {
       const newSheet = doc.sheetsByTitle[newTitle];
       await newSheet.loadCells();
       const title = newSheet.getCell(0, 0);
-      title.value = getTitle(weekNo);
+      title.value = getTitle(semester, weekNo);
 
       // hide old sheet
       await oldSheet.updateProperties({ hidden: true });
