@@ -100,7 +100,8 @@ app.post(URI, async (req, res) => {
     // await newSheet.resize({ rowCount : 12, columnCount : 206});
 
     const sheet1 = doc.sheetsByTitle['Wk1'];
-    await doc.duplicate(sheet1, {title : 'duplicated sheet'});
+    await sheet1.duplicate({title : 'duplicated sheet'});
+    // await doc.duplicate(sheet1, {title : 'duplicated sheet'});
 
   } else {
     // check if its an update command
