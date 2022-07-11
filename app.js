@@ -138,18 +138,13 @@ app.post(URI, async (req, res) => {
       console.log("old week is " + oldWeekNo);
       const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
 
+      const chooseTitle = oldTitle;
       if (weekNo === "1") {
-        /* test code */
-        const oldSheet = doc.sheetsByTitle["Blank Sheet"];
-        await oldSheet.duplicate({ title: newTitle });
-      } else {
-        /* production code */
-        const oldSheet = doc.sheetsByTitle[oldTitle];
-        await oldSheet.duplicate({ title: newTitle });
-
-        // hide old sheet
-        // await oldSheet.updateProperties({ hidden: true });
+        chooseTitle = "Blank Sheet";
       }
+
+      await oldSheet.duplicate({ title: newTitle });
+
       const newSheet = doc.sheetsByTitle[newTitle];
       await newSheet.loadCells();
       // const title = newSheet.getCell(0, 0);
@@ -193,6 +188,9 @@ app.post(URI, async (req, res) => {
 
       // save new sheet
       await newSheet.saveUpdatedCells();
+
+      // hide old sheet
+      // await oldSheet.updateProperties({ hidden: true });
 
       axios.post(`${TELEGRAM_API}/sendMessage`, {
         chat_id: chatID,
