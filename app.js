@@ -131,26 +131,33 @@ app.post(URI, async (req, res) => {
       const temp1 = cmd[1];
       const semester = temp1.slice(1,2);
       console.log("temp1 is " + temp1);
-      const weekNo = temp1.slice(3);
+      console.log("slice is " + temp1.slice(3, temp1.length - 1));
+      const weekNo = temp1.slice(3, temp1.length - 1);
       const newTitle = "Sem " + semester + " Week " + weekNo;
 
-      const sheet1 = doc.sheetsByTitle["Blank Sheet"];
-      await sheet1.duplicate({ title : newTitle });
+      const oldWeekNo = getOldWeek(weekNo);
+      console.log("old week is " + oldWeekNo);
 
-      const sheet2 = doc.sheetsByTitle[newTitle];
-      await sheet2.loadCells();
 
-      const title = sheet2.getCell(0, 0);
-      title.value = getTitle(weekNo);
+      console.log("new title is " + newTitle);
 
-      await sheet2.saveUpdatedCells();
-      await sheet1.updateProperties({hidden : true});
+      // const sheet1 = doc.sheetsByTitle["Blank Sheet"];
+      // await sheet1.duplicate({ title : newTitle });
 
-      axios.post(`${TELEGRAM_API}/sendMessage`, {
-        chat_id: chatID,
-        text:
-          "New sheet created."
-      });
+      // const sheet2 = doc.sheetsByTitle[newTitle];
+      // await sheet2.loadCells();
+
+      // const title = sheet2.getCell(0, 0);
+      // title.value = getTitle(weekNo);
+
+      // await sheet2.saveUpdatedCells();
+      // // await sheet1.updateProperties({hidden : true});
+
+      // axios.post(`${TELEGRAM_API}/sendMessage`, {
+      //   chat_id: chatID,
+      //   text:
+      //     "New sheet created."
+      // });
       
     } else {
       // no command
@@ -179,9 +186,18 @@ app.listen(PORT, async () => {
 
 function getTitle(week) {
   switch (week) {
-    case "1":
-      return "Week 1 Bookings x Aug - y Aug";
-    case "2":
-      return "Week 2 Bookings y Aug - z Aug";
+    case '1':
+      return 'Week 1 Bookings x Aug - y Aug';
+    case '2':
+      return 'Week 2 Bookings y Aug - z Aug';
+  }
+}
+
+function getOldWeek(week) {
+  switch (week) {
+    case '1':
+      return '0';
+    case '2':
+      return '1';
   }
 }
