@@ -152,7 +152,7 @@ app.post(URI, async (req, res) => {
       await newSheet.loadCells();
 
       setTimeout(async () => {
-        await newSheet.unmergeCells("A1:J1");
+        // await newSheet.unmergeCells("A1:J1");
 
         const title = newSheet.getCellByA1("A1");
 
