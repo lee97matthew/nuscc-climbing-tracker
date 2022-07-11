@@ -150,8 +150,7 @@ app.post(URI, async (req, res) => {
 
       const newSheet = doc.sheetsByTitle[newTitle];
       await newSheet.loadCells();
-      // const title = newSheet.getCell(0, 0);
-      const title = newSheet.getCellByA1('A1');
+      const title = newSheet.getCell(0, 0);
       title.value = getTitle(semester, weekNo);
       console.log("new title is " + title.value);
 
