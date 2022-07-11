@@ -63,7 +63,7 @@ app.post(URI, async (req, res) => {
   const chatID = req.body.message.chat.id;
   const teleID = req.body.message.chat.username;
 
-  if (req.body.message.text == "/update") {
+  if (req.body.message.text == "/update") { // /update command
     console.log("Update Attendance Command Match");
 
     // process
@@ -76,7 +76,7 @@ app.post(URI, async (req, res) => {
         "\n" +
         "For example, 'update 1' to update week 1",
     });
-  } else if (req.body.message.text == "/generate") {
+  } else if (req.body.message.text == "/generate") { // /generate command
     console.log("Generate Command Match");
     console.log("look to add to document : " + doc.title);
     // process
@@ -90,15 +90,17 @@ app.post(URI, async (req, res) => {
     console.log(rows[6].newMember);
     console.log(rows[6].wk1);
 
+    rows[6].wk2 = "E";
+    await rows[6].save();
+    // cell.value
+    // cell.formula
+    // masterSheet.saveUpdatedCells();
+
   } else {
     // check if its an update command
-
     const str = JSON.stringify(req.body.message.text);
-    // console.log("str is " + str);
-    // console.log("str length " + str.length);
-    // console.log("str includes update " + str.includes("update"));
     
-    if (str.length > 5 && str.includes("update")) {
+    if (str.length > 5 && str.includes("update")) { // update x command
       const cmd = str.split(" ");
 
       // get week number
@@ -107,7 +109,7 @@ app.post(URI, async (req, res) => {
 
       // do update
 
-    } else {
+    } else { // no command
       // no command
       console.log("Command Not Matched");
 
