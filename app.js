@@ -138,20 +138,18 @@ app.post(URI, async (req, res) => {
       const oldWeekNo = getOldWeek(weekNo);
       console.log("old week is " + oldWeekNo);
 
-
       console.log("new title is " + newTitle);
 
-      // const sheet1 = doc.sheetsByTitle["Blank Sheet"];
-      // await sheet1.duplicate({ title : newTitle });
+      const sheet1 = doc.sheetsByTitle["Blank Sheet"];
+      await sheet1.duplicate({ title : newTitle });
 
-      // const sheet2 = doc.sheetsByTitle[newTitle];
-      // await sheet2.loadCells();
+      const sheet2 = doc.sheetsByTitle[newTitle];
+      await sheet2.loadCells();
+      const title = sheet2.getCell(0, 0);
+      title.value = getTitle(weekNo);
 
-      // const title = sheet2.getCell(0, 0);
-      // title.value = getTitle(weekNo);
-
-      // await sheet2.saveUpdatedCells();
-      // // await sheet1.updateProperties({hidden : true});
+      await sheet2.saveUpdatedCells();
+      // await sheet1.updateProperties({hidden : true});
 
       // axios.post(`${TELEGRAM_API}/sendMessage`, {
       //   chat_id: chatID,
@@ -190,6 +188,10 @@ function getTitle(week) {
       return 'Week 1 Bookings x Aug - y Aug';
     case '2':
       return 'Week 2 Bookings y Aug - z Aug';
+    case '3':
+      return 'Week 3 Bookings z Aug - a Aug';
+    default :
+      return '0';
   }
 }
 
@@ -199,5 +201,9 @@ function getOldWeek(week) {
       return '0';
     case '2':
       return '1';
+    case '3':
+        return '2';
+    default :
+      return '0';
   }
 }
