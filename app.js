@@ -86,10 +86,9 @@ app.post(URI, async (req, res) => {
     console.log("master sheet row count is " + masterSheet.rowCount);
 
     const rows = await masterSheet.getRows();
-    console.log(rows[6].Name);
-    console.log(rows[6][4]);
-    console.log(rows[6][8]);
-
+    console.log(rows[6].name);
+    console.log(rows[6].newMember);
+    console.log(rows[6].wk1);
 
   } else {
     // check if its an update command
