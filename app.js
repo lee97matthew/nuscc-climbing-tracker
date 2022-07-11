@@ -156,13 +156,10 @@ app.post(URI, async (req, res) => {
 
         const title = newSheet.getCellByA1("A1");
 
-        console.log("cur title is " + title.formattedValue);
-
         console.log("cur format title is " + title.formattedValue);
 
         console.log("new title is " + getTitle(semester, weekNo));
-        console.log(title);
-        // title.value = getTitle(semester, weekNo);
+        title.formattedValue = getTitle(semester, weekNo);
 
         // clearing old data
         {
