@@ -75,59 +75,82 @@ app.post(URI, async (req, res) => {
         req.body.message.chat.first_name +
         ", Please type 'update xx' to update the attendance." +
         "\n" +
-        "For example, 'update 1' to update week 1",
+        "For example, 'update 1' to update week 1.",
     });
   } else if (req.body.message.text == "/generate") {
     // /generate command
     console.log("Generate Command Match");
     console.log("look to add to document : " + doc.title);
+
     // process
+    axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: chatID,
+      text:
+        "Hello " +
+        req.body.message.chat.first_name +
+        ", Please type 'generate sXwY' to create a signup sheet." +
+        "\n" +
+        "For example, 'generate s1w7' for sem 1 week 7.",
+    });
 
-    const masterSheet = doc.sheetsByTitle["AY22/23 Sem 1"];
-    console.log("master sheet title is " + masterSheet.title);
-    console.log("master sheet row count is " + masterSheet.rowCount);
+    // backup code for sheets
+    {
+      // using row
+      // const rows = await masterSheet.getRows();
+      // rows[6].wk2 = "E"; //[goes by no idx]
+      // await rows[6].save();
 
-    // using row
-    // const rows = await masterSheet.getRows();
-    // rows[6].wk2 = "E"; //[goes by no idx]
-    // await rows[6].save();
+      // using cell
+      // await masterSheet.loadCells();
+      // const cell = masterSheet.getCell(7,7); // 0 index
+      // cell.value = "E";
+      // await masterSheet.saveUpdatedCells();
 
-    // using cell
-    // await masterSheet.loadCells();
-    // const cell = masterSheet.getCell(7,7); // 0 index
-    // cell.value = "E";
-    // await masterSheet.saveUpdatedCells();
+      // const newSheet = await doc.addSheet({ title: 'Sem 1 Week 1' });
+      // await newSheet.resize({ rowCount : 12, columnCount : 206});
 
-    // const newSheet = await doc.addSheet({ title: 'Sem 1 Week 1' });
-    // await newSheet.resize({ rowCount : 12, columnCount : 206});
-
-    const sheet1 = doc.sheetsByTitle["Sem 1 Week 1"];
-    await sheet1.duplicate({ title: "Sem 1 Week 2" });
-
-    const sheet2 = doc.sheetsByTitle["Sem 1 Week 2"];
-    await sheet2.loadCells();
-
-    const title = sheet2.getCell(0, 0);
-    title.value = getTitle("1");
-
-    sheet2.clear('G6:J35');
-    await sheet2.saveUpdatedCells();
-
+      // sheet2.clear('G6:J35');
+      // await sheet2.saveUpdatedCells();
+    }
+    
   } else {
     // check if its an update command
     const str = JSON.stringify(req.body.message.text);
+    const cmd = str.split(" ");
 
     if (str.length > 5 && str.includes("update")) {
       // update x command
-      const cmd = str.split(" ");
 
       // get week number
       const weekNo = cmd[1].slice(0, cmd[1].length - 1);
       console.log("week number to update is " + weekNo);
 
       // do update
+    } else if (str.length > 5 && str.includes("generate")) {
+      // generate x y command
+      const temp1 = cmd[1];
+      const semester = temp1.slice(0,1);
+      const weekNo = temp1.slice(2);
+      const newTitle = "Sem " + semester + " Week " + weekNo;
+
+      const sheet1 = doc.sheetsByTitle["Blank Sheet"];
+      await sheet1.duplicate({ title : newTitle });
+
+      const sheet2 = doc.sheetsByTitle[newTitle];
+      await sheet2.loadCells();
+
+      const title = sheet2.getCell(0, 0);
+      title.value = getTitle(weekNo);
+
+      await sheet2.saveUpdatedCells();
+
+      axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatID,
+        text:
+          "New sheet created."
+      });
+      
     } else {
-      // no command
       // no command
       console.log("Command Not Matched");
 
@@ -136,7 +159,7 @@ app.post(URI, async (req, res) => {
         text:
           "Hello " +
           req.body.message.chat.first_name +
-          ", Please use the /update command to update the attendance.",
+          ", Please use the /update or /generate commands.",
       });
     }
   }
@@ -154,9 +177,9 @@ app.listen(PORT, async () => {
 
 function getTitle(week) {
   switch (week) {
-    case '1':
+    case "1":
       return "Week 1 Bookings x Aug - y Aug";
-    case '2':
+    case "2":
       return "Week 2 Bookings y Aug - z Aug";
   }
 }
