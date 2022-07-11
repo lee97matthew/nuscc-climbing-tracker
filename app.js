@@ -149,17 +149,19 @@ app.post(URI, async (req, res) => {
       await oldSheet.duplicate({ title: newTitle });
 
       const newSheet = doc.sheetsByTitle[newTitle];
-      await newSheet.loadCells('A1:J1');
       await newSheet.loadCells();
 
-      // await newSheet.unmergeCells('A1:J1');
-
       setTimeout(async () => {
-        const title = newSheet.getCellByA1('A1');
+        await newSheet.unmergeCells("A1:J1");
+
+        const title = newSheet.getCellByA1("A1");
+
         console.log("cur title is " + title.formattedValue);
 
-        console.log("new title is " + getTitle(semester, weekNo));
+        console.log("cur format title is " + title.formattedValue);
 
+        console.log("new title is " + getTitle(semester, weekNo));
+        console.log(title);
         // title.value = getTitle(semester, weekNo);
 
         // clearing old data
@@ -206,9 +208,7 @@ app.post(URI, async (req, res) => {
           chat_id: chatID,
           text: "New sheet created for " + newTitle + ".",
         });
-      }, 10000);
-
-      
+      }, 7000);
     } else {
       // no command
       console.log("Command Not Matched");
