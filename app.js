@@ -159,54 +159,56 @@ app.post(URI, async (req, res) => {
         console.log("cur title is " + title.value);
 
         console.log("new title is " + getTitle(semester, weekNo));
+
+        // title.value = getTitle(semester, weekNo);
+
+        // clearing old data
+        {
+          newSheet.clear("B6:E35");
+          newSheet.clear("G6:J35");
+          newSheet.clear("B37:E41");
+          newSheet.clear("G37:J41");
+
+          newSheet.clear("B46:E75");
+          newSheet.clear("G46:J75");
+          newSheet.clear("B77:E82");
+          newSheet.clear("G77:J82");
+
+          newSheet.clear("B89:E118");
+          newSheet.clear("G89:J118");
+          newSheet.clear("B120:E124");
+          newSheet.clear("G120:J124");
+
+          newSheet.clear("B130:E159");
+          newSheet.clear("G130:J159");
+          newSheet.clear("L130:O159");
+          newSheet.clear("B161:E165");
+          newSheet.clear("G161:J165");
+          newSheet.clear("L161:O165");
+
+          newSheet.clear("B171:E200");
+          newSheet.clear("G171:J200");
+          newSheet.clear("L171:O200");
+          newSheet.clear("B202:E206");
+          newSheet.clear("G202:J206");
+          newSheet.clear("L202:O206");
+        }
+
+        await newSheet.resize({ rowCount: 206, columnCount: 15 });
+
+        // save new sheet
+        await newSheet.saveUpdatedCells();
+
+        // hide old sheet
+        // await oldSheet.updateProperties({ hidden: true });
+
+        axios.post(`${TELEGRAM_API}/sendMessage`, {
+          chat_id: chatID,
+          text: "New sheet created for " + newTitle + ".",
+        });
       }, 10000);
 
-      // title.value = getTitle(semester, weekNo);
-
-      // clearing old data
-      {
-        newSheet.clear("B6:E35");
-        newSheet.clear("G6:J35");
-        newSheet.clear("B37:E41");
-        newSheet.clear("G37:J41");
-
-        newSheet.clear("B46:E75");
-        newSheet.clear("G46:J75");
-        newSheet.clear("B77:E82");
-        newSheet.clear("G77:J82");
-
-        newSheet.clear("B89:E118");
-        newSheet.clear("G89:J118");
-        newSheet.clear("B120:E124");
-        newSheet.clear("G120:J124");
-
-        newSheet.clear("B130:E159");
-        newSheet.clear("G130:J159");
-        newSheet.clear("L130:O159");
-        newSheet.clear("B161:E165");
-        newSheet.clear("G161:J165");
-        newSheet.clear("L161:O165");
-
-        newSheet.clear("B171:E200");
-        newSheet.clear("G171:J200");
-        newSheet.clear("L171:O200");
-        newSheet.clear("B202:E206");
-        newSheet.clear("G202:J206");
-        newSheet.clear("L202:O206");
-      }
-
-      await newSheet.resize({ rowCount: 206, columnCount: 15 });
-
-      // save new sheet
-      await newSheet.saveUpdatedCells();
-
-      // hide old sheet
-      // await oldSheet.updateProperties({ hidden: true });
-
-      axios.post(`${TELEGRAM_API}/sendMessage`, {
-        chat_id: chatID,
-        text: "New sheet created for " + newTitle + ".",
-      });
+      
     } else {
       // no command
       console.log("Command Not Matched");
