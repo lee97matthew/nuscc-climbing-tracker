@@ -125,7 +125,6 @@ app.post(URI, async (req, res) => {
       // do update
     } else if (str.length > 5 && str.includes("generate")) {
       // generate x y command
-
       
       const temp1 = cmd[1];
       const semester = temp1.slice(1, 2);
@@ -135,33 +134,32 @@ app.post(URI, async (req, res) => {
       const newTitle = "Sem " + semester + " Week " + weekNo;
       console.log("new title is " + newTitle);
 
-      const oldWeekNo = getOldWeek(weekNo);
-      console.log("old week is " + oldWeekNo);
-      const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
+      if (weekNo == '1') {
+        const oldSheet = doc.sheetsByTitle["Blank Sheet"];
+        await oldSheet.duplicate({ title: newTitle });
+        const newSheet = doc.sheetsByTitle[newTitle];
+        await newSheet.loadCells();
+        const title = newSheet.getCell(0, 0);
+        title.value = getTitle(semester, weekNo);
+      } else {
+        const oldWeekNo = getOldWeek(weekNo);
+        console.log("old week is " + oldWeekNo);
+        const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
 
-      /* test code */
-      const oldSheet = doc.sheetsByTitle["Blank Sheet"];
-      await oldSheet.duplicate({ title: newTitle });
-      const newSheet = doc.sheetsByTitle[newTitle];
-      await newSheet.loadCells();
-      const title = newSheet.getCell(0, 0);
-      title.value = getTitle(semester, weekNo);
+        const oldSheet = doc.sheetsByTitle[oldTitle];
+        await oldSheet.duplicate({ title: newTitle });
+  
+        const newSheet = doc.sheetsByTitle[newTitle];
+        await newSheet.loadCells();
+        const title = newSheet.getCell(0, 0);
+        title.value = getTitle(semester, weekNo);
+  
+        // hide old sheet
+        /* production code
+        await oldSheet.updateProperties({ hidden: true });
+        */
+      }
       
-
-      /* production code
-      const oldSheet = doc.sheetsByTitle[oldTitle];
-      await oldSheet.duplicate({ title: newTitle });
-
-      const newSheet = doc.sheetsByTitle[newTitle];
-      await newSheet.loadCells();
-      const title = newSheet.getCell(0, 0);
-      title.value = getTitle(semester, weekNo);
-
-      // hide old sheet
-      await oldSheet.updateProperties({ hidden: true });
-
-      */
-
       // clearing old data
       {
         newSheet.clear("B6:E35");
