@@ -38,10 +38,15 @@ const botInit = async () => {
   console.log(result.data);
 };
 
-const doc = new GoogleSpreadsheet(
+var doc = new GoogleSpreadsheet(
   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
 );
-console.log("doc iniitalized");
+console.log("master doc iniitalized");
+
+var signUpDoc = new GoogleSpreadsheet(
+  "1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg"
+);
+console.log("signup doc iniitalized");
 
 const sheetInit = async () => {
   console.log("enter sheetInit");
@@ -52,7 +57,14 @@ const sheetInit = async () => {
   });
 
   await doc.loadInfo(); // loads document properties and worksheets
-  console.log(doc.title + 'Located');
+  console.log(doc.title + ' Located');
+
+  await signUpDoc.useServiceAccountAuth({
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  });
+  await signUpDoc.loadInfo(); // loads document properties and worksheets
+  console.log(signUpDoc.title + ' Located');
 
   console.log("leave sheetInit");
 
@@ -131,33 +143,28 @@ app.post(URI, async (req, res) => {
       const temp1 = cmd[1];
       const semester = temp1.slice(1, 2);
       console.log("temp1 is " + temp1);
-      console.log("slice is " + temp1.slice(3, temp1.length - 1));
+      // console.log("slice is " + temp1.slice(3, temp1.length - 1));
       const weekNo = temp1.slice(3, temp1.length - 1);
       const newTitle = "Sem " + semester + " Week " + weekNo;
       console.log("new title is " + newTitle);
 
-      const oldWeekNo = getOldWeek(weekNo);
-      console.log("old week is " + oldWeekNo);
-      const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
+      // const oldWeekNo = getOldWeek(weekNo);
+      // console.log("old week is " + oldWeekNo);
       
-      // var chooseTitle = oldTitle;
       var chooseTitle = "Blank Sheet";
 
-      // if (weekNo === "1") {
-      //   chooseTitle = "Blank Sheet";
-      // }
+      // console.log("take from " + chooseTitle);
+      var oldSheet = doc.sheetsByTitle[chooseTitle];
+      // console.log("title is " + oldSheet.title);
+      await oldSheet.duplicate({ title: newTitle }); // make new sheet with new title
 
-      console.log("take from " + chooseTitle);
-      const oldSheet = doc.sheetsByTitle[chooseTitle];
-      console.log("title is " + oldSheet.title);
-      await oldSheet.duplicate({ title: newTitle });
+      var newSheetOldDoc = doc.sheetsByTitle[newTitle];
+      await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg");
 
-      const newSheet = doc.sheetsByTitle[newTitle];
+      var newSheet = signUpDoc.sheetsByTitle[newTitle];
       await newSheet.loadCells();
 
       setTimeout(async () => {
-        // await newSheet.unmergeCells("A1:J1");
-
         let title = newSheet.getCellByA1("A1");
 
         console.log("cur title is " + title.value);
