@@ -138,7 +138,7 @@ app.post(URI, async (req, res) => {
       console.log("old week is " + oldWeekNo);
       const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
 
-      const chooseTitle = oldTitle;
+      var chooseTitle = oldTitle;
       if (weekNo === "1") {
         chooseTitle = "Blank Sheet";
       }
@@ -154,7 +154,7 @@ app.post(URI, async (req, res) => {
       setTimeout(async () => {
         // await newSheet.unmergeCells("A1:J1");
 
-        const title = newSheet.getCellByA1("A1");
+        let title = newSheet.getCellByA1("A1");
 
         console.log("cur title is " + title.value);
 
@@ -197,6 +197,7 @@ app.post(URI, async (req, res) => {
 
         // save new sheet
         await newSheet.saveUpdatedCells();
+        console.log("saved changes");
 
         // hide old sheet
         // await oldSheet.updateProperties({ hidden: true });
