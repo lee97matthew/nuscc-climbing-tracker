@@ -165,6 +165,9 @@ app.post(URI, async (req, res) => {
       console.log("finding sheet name :" + newTitleCopy);
 
       var newSheet = signUpDoc.sheetsByTitle[newTitleCopy];
+      await newSheet.updateProperties({ title: newTitle });
+
+      console.log("new sheet name is : " + newSheet.title);
       // await newSheet.loadCells();
 
       // setTimeout(async () => {
