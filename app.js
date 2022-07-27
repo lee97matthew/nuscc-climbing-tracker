@@ -162,6 +162,7 @@ app.post(URI, async (req, res) => {
       await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg");
 
       var newSheet = signUpDoc.sheetsByTitle["Copy of " + newTitle];
+      console.log("finding sheet name :" + "Copy of " + newTitle);
       await newSheet.loadCells();
 
       setTimeout(async () => {
