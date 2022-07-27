@@ -124,7 +124,7 @@ app.post(URI, async (req, res) => {
 
       // do update
     } else if (str.length > 5 && str.includes("generate")) {
-      // generate x y command
+      // generate sem x week y command
 
       const temp1 = cmd[1];
       const semester = temp1.slice(1, 2);
@@ -158,8 +158,12 @@ app.post(URI, async (req, res) => {
 
         console.log("cur title is " + title.value);
 
-        console.log("new title is " + getTitle(semester, weekNo));
-        title.value = getTitle(semester, weekNo);
+        let newSheetTitle = getTitle(semester, weekNo);
+        console.log("new title is " + newSheetTitle.toString());
+        title.value = newSheetTitle.toString();
+
+        await title.save();
+        console.log("saved cell A1 sheet title change");
 
         // clearing old data
         {
@@ -197,7 +201,7 @@ app.post(URI, async (req, res) => {
 
         // save new sheet
         await newSheet.saveUpdatedCells();
-        console.log("saved changes");
+        console.log("saved all changes");
 
         // hide old sheet
         // await oldSheet.updateProperties({ hidden: true });
