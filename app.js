@@ -52,9 +52,11 @@ const sheetInit = async () => {
   });
 
   await doc.loadInfo(); // loads document properties and worksheets
-  console.log(doc.title);
+  console.log(doc.title + 'Located');
 
   console.log("leave sheetInit");
+
+  console.log("Bot Ready");
 };
 
 app.post(URI, async (req, res) => {
@@ -137,11 +139,13 @@ app.post(URI, async (req, res) => {
       const oldWeekNo = getOldWeek(weekNo);
       console.log("old week is " + oldWeekNo);
       const oldTitle = "Sem " + semester + " Week " + oldWeekNo;
+      
+      // var chooseTitle = oldTitle;
+      var chooseTitle = "Blank Sheet";
 
-      var chooseTitle = oldTitle;
-      if (weekNo === "1") {
-        chooseTitle = "Blank Sheet";
-      }
+      // if (weekNo === "1") {
+      //   chooseTitle = "Blank Sheet";
+      // }
 
       console.log("take from " + chooseTitle);
       const oldSheet = doc.sheetsByTitle[chooseTitle];
