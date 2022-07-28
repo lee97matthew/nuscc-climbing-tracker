@@ -157,18 +157,17 @@ app.post(URI, async (req, res) => {
         const numRows = (responseSheet.cellStats.nonEmpty - 4)/4;
         console.log("response sheet has " + numRows + " rows");
 
-        // let nusnetIdHeader = responseSheet.getCellByA1("B2"); // locate cell
-        // nusnetIdHeader.value = "nusnetid";
-        // await nusnetIdHeader.save(); // update cell
-
         const rows = await responseSheet.getRows();
         // console.log("name at rows[0] is : " + rows[0].name); 
-        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid.toString()); 
+        // console.log("nusnetid at rows[0] is : " + rows[0].nusnetid.toString()); 
 
+        // change all NUSNET ID to upper case
         for (let i = 0; i < numRows; i++ ){
           const tempValue = rows[i].nusnetid.toString();
           rows[i].nusnetid = tempValue.toUpperCase();
           await rows[i].save();
+
+          // if rows[i].nusnetid exist in ay22/23 sem 1 sheet's masterRows[j].nusnetId, then masterRows.getCell(j,5+week) = P
         }
 
         // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
