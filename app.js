@@ -160,7 +160,6 @@ app.post(URI, async (req, res) => {
 
       var newSheetOldDoc = doc.sheetsByTitle[newTitle];
       await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg"); // copy to new document
-      await signUpDoc.loadInfo();
 
       setTimeout(async () => {
         const newTitleCopy = "Copy of " + newTitle;
