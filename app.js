@@ -158,7 +158,13 @@ app.post(URI, async (req, res) => {
         console.log("response sheet has " + numRows + "rows");
 
         const rows = await responseSheet.getRows();
-        console.log("name at rows[0] is : " + rows[0].name); 
+        // console.log("name at rows[0] is : " + rows[0].name); 
+
+        for (let i = 0; i < numRows; i++ ){
+          const tempValue = rows[i].nusnetid.value.toString();
+          rows[i].nusnetid.value = tempValue.toUpperCase();
+        }
+        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid); 
 
         // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
 
