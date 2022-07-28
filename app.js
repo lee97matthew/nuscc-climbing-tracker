@@ -167,7 +167,8 @@ app.post(URI, async (req, res) => {
 
         for (let i = 0; i < numRows; i++ ){
           const tempValue = rows[i].nusnetid.toString();
-          rows[i].nusnetid.value = tempValue.toUpperCase();
+          rows[i].nusnetid = tempValue.toUpperCase();
+          await rows[i].save();
         }
 
         // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
