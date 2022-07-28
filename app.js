@@ -153,10 +153,10 @@ app.post(URI, async (req, res) => {
       await responseSheet.loadCells(); // load all cells
 
       setTimeout(async () => {
-        console.log("response sheet has " + responseSheet.rowCount + "rows");
+        console.log("response sheet has " + responseSheet.cellStats.nonEmpty + "non empty cells");
 
         const rows = await responseSheet.getRows();
-        console.log("name at rows[1] is : " + rows[1].name); 
+        // console.log("name at rows[1] is : " + rows[1].name); 
 
         // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
 
@@ -260,7 +260,7 @@ app.post(URI, async (req, res) => {
         text:
           "Hello " +
           req.body.message.chat.first_name +
-          ", Please use the /update or /generate commands.",
+          ", Please use the /generate command.",
       });
     }
   }
