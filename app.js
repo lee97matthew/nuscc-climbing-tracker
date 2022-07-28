@@ -163,10 +163,10 @@ app.post(URI, async (req, res) => {
 
         const rows = await responseSheet.getRows();
         // console.log("name at rows[0] is : " + rows[0].name); 
-        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid.value); 
+        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid.toString()); 
 
         for (let i = 0; i < numRows; i++ ){
-          const tempValue = rows[i].nusnetid.value.toString();
+          const tempValue = rows[i].nusnetid.toString();
           rows[i].nusnetid.value = tempValue.toUpperCase();
         }
 
