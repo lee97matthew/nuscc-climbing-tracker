@@ -162,17 +162,17 @@ app.post(URI, async (req, res) => {
       await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg"); // copy to new document
 
       setTimeout(async () => {
-        const newTitleCopy = "Copy of " + newTitle;
-        console.log("finding sheet name :" + newTitleCopy + ":"); // copied title has "Copy of " infront
-  
-        const newSheet = signUpDoc.sheetsByTitle[newTitleCopy];
-        console.log("duplicated sheet name is :" + newSheet.title);
-        await newSheet.updateProperties({ title: newTitle.toString }); // update title to correct title
-  
-        console.log("new sheet name is : " + newSheet.title);
-        // await newSheet.loadCells();
-      }, 3000);
+        console.log("in 5s delay");
+      }, 5000);
 
+      const newTitleCopy = "Copy of " + newTitle;
+      console.log("finding sheet name :" + newTitleCopy + ":"); // copied title has "Copy of " infront
+      const newSheet = signUpDoc.sheetsByTitle[newTitleCopy];
+      console.log("duplicated sheet name is :" + newSheet.title);
+      await newSheet.updateProperties({ title: newTitle.toString }); // update title to correct title
+
+      console.log("new sheet name is : " + newSheet.title);
+      // await newSheet.loadCells();
       
       // setTimeout(async () => {
       //   let title = newSheet.getCellByA1("A1");
