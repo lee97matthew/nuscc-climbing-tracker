@@ -29,6 +29,7 @@ console.log("web hook url is + " + WEBHOOK_URL);
 
 const { botRequest } = require("./middlewares");
 const e = require("express");
+const { response } = require("express");
 
 const botInit = async () => {
   // for Initializing connection to NUSCCAttendanceBot
@@ -38,27 +39,32 @@ const botInit = async () => {
   console.log(result.data);
 };
 
+// Initialize Attendance Master excel
 var doc = new GoogleSpreadsheet(
   "1kWMyeS0YVZzjXV_Nft_dtbnZ9xjC9_GFNMAyPeYmFNw"
 );
 console.log("master doc iniitalized");
 
+// Initialize Climbing Club 22/23 Bookings excel
 var signUpDoc = new GoogleSpreadsheet(
   "1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg"
 );
 console.log("signup doc iniitalized");
 
+
+// Initialize google-spreadsheet API 
 const sheetInit = async () => {
   console.log("enter sheetInit");
 
+  // Authenticate Attendance Master
   await doc.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
   });
-
   await doc.loadInfo(); // loads document properties and worksheets
   console.log(doc.title + ' Located');
 
+  // Authenticate Bookings
   await signUpDoc.useServiceAccountAuth({
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
@@ -67,10 +73,10 @@ const sheetInit = async () => {
   console.log(signUpDoc.title + ' Located');
 
   console.log("leave sheetInit");
-
   console.log("Bot Ready");
 };
 
+// Receiving messages from Telegram bot
 app.post(URI, async (req, res) => {
   // NUSCCAttendanceBot functions
   // console.log("Enter async functions");
@@ -79,25 +85,27 @@ app.post(URI, async (req, res) => {
   const teleID = req.body.message.chat.username;
 
   if (req.body.message.text == "/update") {
-    // /update command
+    // /update generic command
     console.log("Update Attendance Command Match");
 
-    // process
+    // Tell user instructions
     axios.post(`${TELEGRAM_API}/sendMessage`, {
       chat_id: chatID,
       text:
         "Hello " +
         req.body.message.chat.first_name +
-        ", Please type 'update xx' to update the attendance." +
+        ", Please type 'update sXwY' to update the attendance." +
         "\n" +
-        "For example, 'update 1' to update week 1.",
+        "For example, 'update s1w7' to update sem 1 week 7.",
+
+        // code
     });
   } else if (req.body.message.text == "/generate") {
-    // /generate command
+    // /generate generic command
     console.log("Generate Command Match");
     console.log("look to add to document : " + doc.title);
 
-    // process
+    // Tell user instructions
     axios.post(`${TELEGRAM_API}/sendMessage`, {
       chat_id: chatID,
       text:
@@ -130,46 +138,70 @@ app.post(URI, async (req, res) => {
     const cmd = str.split(" ");
 
     if (str.length > 5 && str.includes("update")) {
-      // update x command
+      // update sem x week y command
+      const temp1 = cmd[1]; // retrieving sXwY"
+      const semester = temp1.slice(1, 2); // retrieves X
+      const weekNo = temp1.slice(3, temp1.length - 1); // retrieves Y
 
-      // get week number
-      const weekNo = cmd[1].slice(0, cmd[1].length - 1);
-      console.log("week number to update is " + weekNo);
+      const sheetName = "Sem " + semester + " Week " + weekNo; // combines into Sem X Week Y
+      console.log("updating from sheet " + sheetName);
 
       // do update
+      var responseSheet = doc.sheetsByTitle[sheetName]; // locate attendance form response
+      console.log("response sheet : " + responseSheet.title + " located");
+
+      await responseSheet.loadCells(); // load all cells
+
+      setTimeout(async () => {
+        console.log("response sheet has " + responseSheet.rowCount + "rows");
+
+        const rows = await responseSheet.getRows();
+        console.log("name at rows[1] is : " + rows[1].name); 
+
+        // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
+
+        axios.post(`${TELEGRAM_API}/sendMessage`, {
+          chat_id: chatID,
+          text: "Attendance updated for " + sheetName + ".",
+        });
+        
+        // responseSheet.updateProperties({hidden : true}); // hide sheet after update complete
+      }, 3000);
+
     } else if (str.length > 5 && str.includes("generate")) {
       // generate sem x week y command
 
-      const temp1 = cmd[1];
-      const semester = temp1.slice(1, 2);
-      console.log("temp1 is " + temp1);
+      const temp1 = cmd[1]; // retrieving sXwY"
+      const semester = temp1.slice(1, 2); // retrieves X
+      // console.log("temp1 is " + temp1);
       // console.log("slice is " + temp1.slice(3, temp1.length - 1));
-      const weekNo = temp1.slice(3, temp1.length - 1);
-      const newTitle = "Sem " + semester + " Week " + weekNo;
+      const weekNo = temp1.slice(3, temp1.length - 1); // retrieves Y
+      const newTitle = "Sem " + semester + " Week " + weekNo; // combines into Sem X Week Y
       console.log("new title is " + newTitle);
       
       var chooseTitle = "Blank Sheet";
 
       // console.log("take from " + chooseTitle);
-      var oldSheet = signUpDoc.sheetsByTitle[chooseTitle];
+      var oldSheet = signUpDoc.sheetsByTitle[chooseTitle]; // locate template Blank Sheet
       // console.log("title is " + oldSheet.title);
       await oldSheet.duplicate({ title: newTitle }); // make new sheet with new title
 
-      const newSheet = signUpDoc.sheetsByTitle[newTitle];
-      console.log("new sheet name is : " + newSheet.title);
-      newSheet.updateProperties({hidden : false});
-      await newSheet.loadCells();
+      const newSheet = signUpDoc.sheetsByTitle[newTitle]; // locate new sheet with new name
+      console.log("new sheet : " + newSheet.title + " located");
+      newSheet.updateProperties({hidden : false}); // unhide sheet
+
+      await newSheet.loadCells(); // load all cells
       
+      // processing within the new sheet
       setTimeout(async () => {
-        let title = newSheet.getCellByA1("A1");
+        let title = newSheet.getCellByA1("A1"); // locate sheet header
 
         console.log("cur title is " + title.value);
-
-        let newSheetTitle = getTitle(semester, weekNo);
+        let newSheetTitle = getTitle(semester, weekNo); // obtain new weekly title
         console.log("new title is " + newSheetTitle.toString());
         title.value = newSheetTitle.toString();
 
-        await title.save();
+        await title.save(); // update sheet title
         console.log("saved cell A1 sheet title change");
 
         // clearing old data
@@ -204,6 +236,7 @@ app.post(URI, async (req, res) => {
           newSheet.clear("L202:O206");
         }
 
+        // fix format
         await newSheet.resize({ rowCount: 206, columnCount: 15 });
 
         // save new sheet
@@ -217,7 +250,7 @@ app.post(URI, async (req, res) => {
           chat_id: chatID,
           text: "New sheet created for " + newTitle + ".",
         });
-      }, 5000);
+      }, 3000);
     } else {
       // no command
       console.log("Command Not Matched");
@@ -243,6 +276,7 @@ app.listen(PORT, async () => {
   }, 3000);
 });
 
+// Get Title Function to update Cell A1 (sheet header)
 function getTitle(semester, week) {
   console.log("semester is " + semester);
   console.log("week is " + week);
@@ -314,6 +348,7 @@ function getTitle(semester, week) {
   }
 }
 
+// Useless function but keep incase
 function getOldWeek(week) {
   switch (week) {
     case "1":

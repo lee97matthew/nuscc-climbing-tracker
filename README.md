@@ -4,7 +4,7 @@ Interaction only via [Telegram Bot](https://t.me/NUSCCAttendanceBot)
 
 ## Description 
 
-This application will help to semi-automatically track member's attendances.
+This application will help to semi-automate tracking member's attendances.
 
 Members are required to scan the QR codes at USC / UTown and key in their NUSNET ID minimally (as that is the key value we are using to update their attendance).
 
@@ -12,6 +12,9 @@ The weekly attendance sheet will then be updated to the master attendance sheet 
 
 ## Support
 Please contact [Matthew](https://t.me/Revengenc3x) if you face any issues.
+
+### API
+Google Sheets API Wrapper : [node google-spreadsheet](https://theoephraim.github.io/node-google-spreadsheet/#/)
 
 ## Making Changes
 git add .
