@@ -158,66 +158,66 @@ app.post(URI, async (req, res) => {
       const newSheet = signUpDoc.sheetsByTitle[newTitle];
       console.log("new sheet name is : " + newSheet.title);
       newSheet.updateProperties({hidden : false});
-      // await newSheet.loadCells();
+      await newSheet.loadCells();
       
-      // setTimeout(async () => {
-      //   let title = newSheet.getCellByA1("A1");
+      setTimeout(async () => {
+        let title = newSheet.getCellByA1("A1");
 
-      //   console.log("cur title is " + title.value);
+        console.log("cur title is " + title.value);
 
-      //   let newSheetTitle = getTitle(semester, weekNo);
-      //   console.log("new title is " + newSheetTitle.toString());
-      //   title.value = newSheetTitle.toString();
+        let newSheetTitle = getTitle(semester, weekNo);
+        console.log("new title is " + newSheetTitle.toString());
+        title.value = newSheetTitle.toString();
 
-      //   await title.save();
-      //   console.log("saved cell A1 sheet title change");
+        await title.save();
+        console.log("saved cell A1 sheet title change");
 
-      //   // clearing old data
-      //   {
-      //     newSheet.clear("B6:E35");
-      //     newSheet.clear("G6:J35");
-      //     newSheet.clear("B37:E41");
-      //     newSheet.clear("G37:J41");
+        // clearing old data
+        {
+          newSheet.clear("B6:E35");
+          newSheet.clear("G6:J35");
+          newSheet.clear("B37:E41");
+          newSheet.clear("G37:J41");
 
-      //     newSheet.clear("B46:E75");
-      //     newSheet.clear("G46:J75");
-      //     newSheet.clear("B77:E82");
-      //     newSheet.clear("G77:J82");
+          newSheet.clear("B46:E75");
+          newSheet.clear("G46:J75");
+          newSheet.clear("B77:E82");
+          newSheet.clear("G77:J82");
 
-      //     newSheet.clear("B89:E118");
-      //     newSheet.clear("G89:J118");
-      //     newSheet.clear("B120:E124");
-      //     newSheet.clear("G120:J124");
+          newSheet.clear("B89:E118");
+          newSheet.clear("G89:J118");
+          newSheet.clear("B120:E124");
+          newSheet.clear("G120:J124");
 
-      //     newSheet.clear("B130:E159");
-      //     newSheet.clear("G130:J159");
-      //     newSheet.clear("L130:O159");
-      //     newSheet.clear("B161:E165");
-      //     newSheet.clear("G161:J165");
-      //     newSheet.clear("L161:O165");
+          newSheet.clear("B130:E159");
+          newSheet.clear("G130:J159");
+          newSheet.clear("L130:O159");
+          newSheet.clear("B161:E165");
+          newSheet.clear("G161:J165");
+          newSheet.clear("L161:O165");
 
-      //     newSheet.clear("B171:E200");
-      //     newSheet.clear("G171:J200");
-      //     newSheet.clear("L171:O200");
-      //     newSheet.clear("B202:E206");
-      //     newSheet.clear("G202:J206");
-      //     newSheet.clear("L202:O206");
-      //   }
+          newSheet.clear("B171:E200");
+          newSheet.clear("G171:J200");
+          newSheet.clear("L171:O200");
+          newSheet.clear("B202:E206");
+          newSheet.clear("G202:J206");
+          newSheet.clear("L202:O206");
+        }
 
-      //   await newSheet.resize({ rowCount: 206, columnCount: 15 });
+        await newSheet.resize({ rowCount: 206, columnCount: 15 });
 
-      //   // save new sheet
-      //   await newSheet.saveUpdatedCells();
-      //   console.log("saved all changes");
+        // save new sheet
+        await newSheet.saveUpdatedCells();
+        console.log("saved all changes");
 
-      //   // hide old sheet
-      //   // await oldSheet.updateProperties({ hidden: true });
+        // hide old sheet
+        // await oldSheet.updateProperties({ hidden: true });
 
-      //   axios.post(`${TELEGRAM_API}/sendMessage`, {
-      //     chat_id: chatID,
-      //     text: "New sheet created for " + newTitle + ".",
-      //   });
-      // }, 7000);
+        axios.post(`${TELEGRAM_API}/sendMessage`, {
+          chat_id: chatID,
+          text: "New sheet created for " + newTitle + ".",
+        });
+      }, 5000);
     } else {
       // no command
       console.log("Command Not Matched");
