@@ -163,10 +163,11 @@ app.post(URI, async (req, res) => {
 
       setTimeout(async () => {
         const newTitleCopy = "Copy of " + newTitle;
-        console.log("finding sheet name :" + newTitleCopy); // copied title has "Copy of " infront
+        console.log("finding sheet name :" + newTitleCopy + ":"); // copied title has "Copy of " infront
   
         var newSheet = signUpDoc.sheetsByTitle[newTitleCopy];
-        await newSheet.updateProperties({ title: newTitle }); // update title to correct title
+        console.log("duplicated sheet name is :" + newSheet.title);
+        await newSheet.updateProperties({ title: newTitle.toString }); // update title to correct title
   
         console.log("new sheet name is : " + newSheet.title);
         // await newSheet.loadCells();
