@@ -159,13 +159,13 @@ app.post(URI, async (req, res) => {
       await oldSheet.duplicate({ title: newTitle }); // make new sheet with new title
 
       var newSheetOldDoc = doc.sheetsByTitle[newTitle];
-      await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg");
+      await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg"); // copy to new document
 
       const newTitleCopy = "Copy of " + newTitle;
-      console.log("finding sheet name :" + newTitleCopy);
+      console.log("finding sheet name :" + newTitleCopy); // copied title has "Copy of " infront
 
       var newSheet = signUpDoc.sheetsByTitle[newTitleCopy];
-      await newSheet.updateProperties({ title: newTitle });
+      await newSheet.updateProperties({ title: newTitle }); // update title to correct title
 
       console.log("new sheet name is : " + newSheet.title);
       // await newSheet.loadCells();
