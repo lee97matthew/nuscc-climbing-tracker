@@ -12,3 +12,9 @@ The weekly attendance sheet will then be updated to the master attendance sheet 
 
 ## Support
 Please contact [Matthew](https://t.me/Revengenc3x) if you face any issues.
+
+## Making Changes
+git add .
+git commit -m "message"
+git push heroku main
+git push

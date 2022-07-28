@@ -157,6 +157,7 @@ app.post(URI, async (req, res) => {
 
       const newSheet = signUpDoc.sheetsByTitle[newTitle];
       console.log("new sheet name is : " + newSheet.title);
+      newSheet.updateProperties({hidden : false});
       // await newSheet.loadCells();
       
       // setTimeout(async () => {
