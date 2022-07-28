@@ -147,30 +147,13 @@ app.post(URI, async (req, res) => {
       const weekNo = temp1.slice(3, temp1.length - 1);
       const newTitle = "Sem " + semester + " Week " + weekNo;
       console.log("new title is " + newTitle);
-
-      // const oldWeekNo = getOldWeek(weekNo);
-      // console.log("old week is " + oldWeekNo);
       
       var chooseTitle = "Blank Sheet";
 
       // console.log("take from " + chooseTitle);
-      var oldSheet = doc.sheetsByTitle[chooseTitle];
+      var oldSheet = signUpDoc.sheetsByTitle[chooseTitle];
       // console.log("title is " + oldSheet.title);
       await oldSheet.duplicate({ title: newTitle }); // make new sheet with new title
-
-      var newSheetOldDoc = doc.sheetsByTitle[newTitle];
-      await newSheetOldDoc.copyToSpreadsheet("1-pOmgAJtUkepOWOrOgtcHOBRm5fdoMo7H_fOtc4NQVg"); // copy to new document
-      console.log("copy code");
-
-      setTimeout(async () => {
-        console.log("in 5s delay");
-
-        const newTitleCopy = "Copy of " + newTitle;
-        console.log("finding sheet name :" + newTitleCopy + ":"); // copied title has "Copy of " infront
-        const newSheetCopied = signUpDoc.sheetsByTitle[newTitleCopy];
-        console.log("duplicated sheet name is :" + newSheetCopied.title);
-        await newSheetCopied.updateProperties({ title: newTitle }); // update title to correct title
-      }, 7000);
 
       const newSheet = signUpDoc.sheetsByTitle[newTitle];
       console.log("new sheet name is : " + newSheet.title);
