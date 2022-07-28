@@ -153,17 +153,17 @@ app.post(URI, async (req, res) => {
       await responseSheet.loadCells(); // load all cells
 
       setTimeout(async () => {
-        console.log("response sheet has " + responseSheet.cellStats.nonEmpty + "non empty cells");
+        console.log("response sheet has " + responseSheet.cellStats.nonEmpty + " non empty cells");
         const numRows = (responseSheet.cellStats.nonEmpty - 4)/4;
-        console.log("response sheet has " + numRows + "rows");
+        console.log("response sheet has " + numRows + " rows");
 
-        let nusnetIdHeader = responseSheet.getCellByA1("B2"); // locate cell
-        nusnetIdHeader.value = "nusnetid";
-        await nusnetIdHeader.save(); // update cell
+        // let nusnetIdHeader = responseSheet.getCellByA1("B2"); // locate cell
+        // nusnetIdHeader.value = "nusnetid";
+        // await nusnetIdHeader.save(); // update cell
 
         const rows = await responseSheet.getRows();
         // console.log("name at rows[0] is : " + rows[0].name); 
-        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid); 
+        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid.value); 
 
         for (let i = 0; i < numRows; i++ ){
           const tempValue = rows[i].nusnetid.value.toString();
