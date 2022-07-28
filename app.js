@@ -154,9 +154,11 @@ app.post(URI, async (req, res) => {
 
       setTimeout(async () => {
         console.log("response sheet has " + responseSheet.cellStats.nonEmpty + "non empty cells");
+        const numRows = (responseSheet.cellStats.nonEmpty - 4)/4;
+        console.log("response sheet has " + numRows + "rows");
 
         const rows = await responseSheet.getRows();
-        // console.log("name at rows[1] is : " + rows[1].name); 
+        console.log("name at rows[0] is : " + rows[0].name); 
 
         // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
 
