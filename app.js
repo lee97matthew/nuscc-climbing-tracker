@@ -157,14 +157,18 @@ app.post(URI, async (req, res) => {
         const numRows = (responseSheet.cellStats.nonEmpty - 4)/4;
         console.log("response sheet has " + numRows + "rows");
 
+        let nusnetIdHeader = responseSheet.getCellByA1("B2"); // locate cell
+        nusnetIdHeader.value = "nusnetid";
+        await nusnetIdHeader.save(); // update cell
+
         const rows = await responseSheet.getRows();
         // console.log("name at rows[0] is : " + rows[0].name); 
+        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid); 
 
         for (let i = 0; i < numRows; i++ ){
           const tempValue = rows[i].nusnetid.value.toString();
           rows[i].nusnetid.value = tempValue.toUpperCase();
         }
-        console.log("nusnetid at rows[0] is : " + rows[0].nusnetid); 
 
         // let attendanceCell = responseSheet.getCellByA1("A1"); // locate sheet header
 
